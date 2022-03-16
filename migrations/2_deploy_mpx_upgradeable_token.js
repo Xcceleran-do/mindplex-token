@@ -1,4 +1,4 @@
-// migrations/NN_deploy_upgradeable_box.js
+
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
 const MindplexUpgradeableToken = artifacts.require('MindplexUpgradeableToken');
