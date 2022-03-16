@@ -2,7 +2,7 @@ const MindplexUpgradeableToken = artifacts.require("MindplexUpgradeableToken");
 const { deployProxy, upgradeProxy } = require('@openzeppelin/truffle-upgrades');
 
 const { assert } = require('chai')
-const {delegationSignature} = require('./signature')
+const {delegationSignature} = require('./signature_helper_functions')
 const { constants, expectEvent, expectRevert } = require('@openzeppelin/test-helpers');
 const BN = require("bignumber.js");
 const { default: BigNumber } = require('bignumber.js');
