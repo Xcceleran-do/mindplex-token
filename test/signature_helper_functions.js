@@ -38,10 +38,10 @@ const signTypedData  = async (account,msgParam) => {
 
 }
 
-// Disclaimer: chainId should be set to 1 manually when tetsing on a hosted ganache server
+// Note: chainId should be set to 1 manually when tetsing on a hosted ganache server
 // the response for block.chainId on the evm does not match with web3.eth.getChainId() 
 // block.chainId returns 1 on the evm while web3.eth.getChainId() returns the default 1377
-// causing signature verification on the evm a failure
+// causing EIP712 based signature verification  on the evm a failure
 const createDomainSeparator = (chainId, verifyingContract) => {
     return {
         name: "MindplexToken",
