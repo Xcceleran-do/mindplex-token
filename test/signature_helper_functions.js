@@ -38,10 +38,9 @@ const signTypedData  = async (account,msgParam) => {
 
 }
 
-// Note: chainId should be set to 1 manually when tetsing on a hosted ganache server
-// the response for block.chainId on the evm does not match with web3.eth.getChainId() 
-// block.chainId returns 1 on the evm while web3.eth.getChainId() returns the default 1377
-// causing EIP712 based signature verification  on the evm a failure
+// Note: Incase of running the test on a ganache development network, ganache should be upgraded to v7.0
+// due to the legacy bug of ganache prior to v7.0 which returns different values for the EVM's CHAINID opcode and the RPC method for eth_chainId
+// causing EIP712 standard digests to be differnt onchain and offchain hence causing signature verifcation a failure by default.
 const createDomainSeparator = (chainId, verifyingContract) => {
     return {
         name: "MindplexToken",
