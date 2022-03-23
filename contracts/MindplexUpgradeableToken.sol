@@ -58,14 +58,7 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
         _mint(msg.sender, MAX_SUPPLY);
     }
 
-    /**
-    * @dev Returns the number of decimals `6` used to get its user representation.
-    * See {ERC20-decimals}
-    */
-
-    function decimals() public pure override returns (uint8) {
-        return 6;
-    }
+   
 
 
     
@@ -76,19 +69,7 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
     }
 
 
-     /**
-     * @dev Destroys `amount` tokens from the caller.
-     *
-     * See {ERC20-_burn}.
-     */
-
-    function _burn(address account, uint256 amount)
-        internal
-        override(ERC20Upgradeable,ERC20VotesUpgradeable)
-    {
-        super._burn(account, amount);
-    }
-
+    
 
     
     function burn(uint256 amount) public virtual {
@@ -150,21 +131,33 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
         _unpause();
     }
 
-
- /**
-     *@dev Hook to be called after every token transfer
-     *
-     * See {ERC20-_afterTokenTransfer}.
+    /**
+    * @dev Returns the number of decimals `6` used to get its user representation.
+    * See {ERC20-decimals}
     */
 
-     function _beforeTokenTransfer(address from, address to, uint256 amount)
+    function decimals() public pure virtual override returns (uint8) {
+        return 6;
+     }
+
+
+
+
+    /**
+     * @dev Destroys `amount` tokens from the caller.
+     *
+     * See {ERC20-_burn}.
+     */
+
+    function _burn(address account, uint256 amount)
         internal
-        whenNotPaused
-        override
+        override(ERC20Upgradeable,ERC20VotesUpgradeable)
     {
-        super._beforeTokenTransfer(from, to, amount);
+        super._burn(account, amount);
     }
 
+
+    
     /**
      * @dev Creates `amount` of new tokens and assigns them to an address `to`.
      * See {ERC20-_mint}.
@@ -183,16 +176,32 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
     }
 
 
-  /**
+    /**
+     *@dev Hook to be called after before token transfer
+     * See {ERC20-_beforeTokenTransfer}.
+    */
+
+     function _beforeTokenTransfer(address from, address to, uint256 amount)
+        internal
+        whenNotPaused
+        override
+    {
+        super._beforeTokenTransfer(from, to, amount);
+    }
+
+
+    /**
      *@dev Hook to be called after every token transfer
-     *
      * See {ERC20-_afterTokenTransfer}.
     */
 
     function _afterTokenTransfer(address from,address to,uint256 amount) internal 
     virtual override(ERC20Upgradeable,ERC20VotesUpgradeable){
     super._afterTokenTransfer(from,to,amount);
-    }
+    } 
+    
+    
+   
 }
 
 
