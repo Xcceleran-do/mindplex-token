@@ -59,14 +59,14 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
     }
 
 
-    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+    function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
         require(totalSupply()+amount<=MAX_SUPPLY,"Token to be minted should not exceed Max supply"); 
         _mint(to, amount);
     }
 
 
     
-    function burn(uint256 amount) public virtual {
+    function burn(uint256 amount) external virtual {
         _burn(_msgSender(), amount);
     }
 
@@ -104,7 +104,7 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
      */
 
 
-    function pause() public virtual onlyRole(PAUSER_ROLE) {
+    function pause() external virtual onlyRole(PAUSER_ROLE) {
         _pause();
     }
     
@@ -121,7 +121,7 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
      */
 
 
-    function unpause() public virtual onlyRole(PAUSER_ROLE) {
+    function unpause() external virtual onlyRole(PAUSER_ROLE) {
         _unpause();
     }
 
