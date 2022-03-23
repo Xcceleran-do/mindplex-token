@@ -443,7 +443,25 @@ contract("MindplexUpgradeableToken ", async(accounts) =>
 
         })
 
-        it("10. Delegating with expired Signature should fail",async ()=>{
+
+
+        //test cases that should fail
+
+        it("10. Burning tokens from an account  of value greater than what's been approved by the account should fail",async ()=>{
+            
+            const allowanceAmount = new BN(1e+5)
+
+            const burnAmount = new BN(1e+6)
+            
+            await approveAndVerify(accounts[0], accounts[2], allowanceAmount)
+
+            await expectRevert.unspecified(burnFromAndVerify(accounts[0], accounts[2], burnAmount))
+
+        })
+
+
+
+        it("11. Delegating with expired Signature should fail",async ()=>{
         
         const nonce = 0
         const expiry = "10"
@@ -458,7 +476,7 @@ contract("MindplexUpgradeableToken ", async(accounts) =>
 
         })
 
-         it("11. Delegating with used nonce should fail",async ()=>{
+         it("12. Delegating with used nonce should fail",async ()=>{
         
         const nonce = 0
         const expiry = "1000000000000000000000000000000"
@@ -473,7 +491,7 @@ contract("MindplexUpgradeableToken ", async(accounts) =>
 
         })
 
-        it("12. Delegating with invalid nonce should fail",async ()=>{
+        it("13. Delegating with invalid nonce should fail",async ()=>{
         
         const nonce = 10
         const expiry = "1000000000000000000000000000000"
