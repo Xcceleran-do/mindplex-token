@@ -32,9 +32,9 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
 
     // Role that has the access to pause and unpause this contract
      bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    /// Role that has the access to mint tokens on this contract 
+    // Role that has the access to mint tokens on this contract 
      bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-     ///Max supply of the token
+     //Max supply of the token
      uint256 public constant MAX_SUPPLY = 1000000000*10**uint(6);
 
     
@@ -58,18 +58,12 @@ contract MindplexUpgradeableToken is Initializable,AccessControlUpgradeable,ERC2
         _mint(msg.sender, MAX_SUPPLY);
     }
 
-   
-
-
-    
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
         require(totalSupply()+amount<=MAX_SUPPLY,"Token to be minted should not exceed Max supply"); 
         _mint(to, amount);
     }
 
-
-    
 
     
     function burn(uint256 amount) public virtual {
