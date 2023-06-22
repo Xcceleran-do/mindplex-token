@@ -10,6 +10,7 @@ describe("Mindplex Token Contract", function () {
     let _initialSupply = 1000000000000000;
     let _maxSupply = 1000000000000000;
     let _allowanceAmount = 50000;
+    let zero_address = "0x0000000000000000000000000000000000000000";
     let admin;
     
     before(async function () {
@@ -151,6 +152,12 @@ describe("Mindplex Token Contract", function () {
         let newBalance = Number(callerBalance) + Number(newMintAmount);
         expect(await mindplexToken.balanceOf(admin.address))
         .to.equal(newBalance);
+    })
+
+    it("Should revert if token receiver is zero address", async function (){
+        let newMintAmount = 2000;
+        await expect(mindplexToken.mint(zero_address, newMintAmount))
+        .to.be.revertedWith("Token receiver can not be a zero address");
     })
 
     it("Should revert if someone other than role is trying to mint", async function (){
