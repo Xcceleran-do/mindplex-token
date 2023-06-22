@@ -49,10 +49,6 @@ contract MindplexToken is
             totalSupply() + amount <= MAX_SUPPLY,
             "Token to be minted should not exceed Max supply"
         ); 
-        require(
-            to != address(0), 
-            "Token receiver can not be a zero address"
-        );
         _mint(to, amount);
     }
 
