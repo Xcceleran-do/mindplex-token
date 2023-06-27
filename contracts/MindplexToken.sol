@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
@@ -14,6 +15,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 */
 contract MindplexToken is 
     ERC20Burnable, 
+    ERC20Votes,
     Pausable, 
     AccessControl 
 {
@@ -31,6 +33,7 @@ contract MindplexToken is
         string memory symbol_
     ) 
         ERC20(name_, symbol_)
+        ERC20Permit(name_)
     { 
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
@@ -102,11 +105,57 @@ contract MindplexToken is
      *
      * - the contract must not be paused.
     */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) 
+    function _beforeTokenTransfer(
+        address from, 
+        address to, 
+        uint256 amount
+    ) 
         internal 
         override
         whenNotPaused 
     {
         super._beforeTokenTransfer(from, to, amount);
+    }
+
+    /**
+     * @dev Move voting power when tokens are transferred.
+     *
+     * Emits a {IVotes-DelegateVotesChanged} event.
+    */
+    function _afterTokenTransfer(
+        address from, 
+        address to, 
+        uint256 amount
+    ) 
+        internal 
+        override(ERC20, ERC20Votes)
+    {
+        super._afterTokenTransfer(from, to, amount);
+    }
+
+    /**
+     * @dev Snapshots the totalSupply after it has been increased.
+     */
+    function _mint(
+        address account, 
+        uint256 amount
+    ) 
+        internal 
+        override(ERC20, ERC20Votes) 
+    {
+        super._mint(account, amount);
+    }
+
+    /**
+     * @dev Snapshots the totalSupply after it has been decreased.
+     */
+    function _burn(
+        address account, 
+        uint256 amount
+    ) 
+        internal 
+        override(ERC20, ERC20Votes) 
+    {
+        super._burn(account, amount);
     }
 }
