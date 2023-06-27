@@ -154,6 +154,12 @@ describe("Mindplex Token Contract", function () {
         .to.equal(newBalance);
     })
 
+    it("Should revert if token receiver is zero address", async function (){
+        let newMintAmount = 2000;
+        await expect(mindplexToken.mint(zero_address, newMintAmount))
+        .to.be.revertedWith("ERC20: mint to the zero address");
+    })
+
     it("Should revert if someone other than role is trying to mint", async function (){
         let newMintAmount = 2000;
         await expect(mindplexToken.connect(editor).mint(admin.address, newMintAmount))
