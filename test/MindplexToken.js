@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const  { ethers, upgrades } = require("hardhat");
+const  { ethers } = require("hardhat");
 const BN = require("bignumber.js");
 
 describe("Mindplex Token Contract", function () {
@@ -110,9 +110,18 @@ describe("Mindplex Token Contract", function () {
         expect(await mindplexToken.balanceOf(requestor.address)).to.equal(requestorBalance - _secondTransferAmount);
     })
 
+    it("Should revert transfer if contract is paused", async function (){
+        let _transferAmount = 500;
+        await mindplexToken.pause();
+        // Transfer 1 (From admin to requestor)
+        await expect(mindplexToken.transfer(requestor.address, _transferAmount))
+        .to.be.revertedWith("Pausable: paused");
+    })
+
     //------------------------- Burn ---------------------------// 
 
     it("Should revert minting before burn", async function (){
+        await mindplexToken.unpause();
         await expect(mindplexToken.mint(admin.address, 100))
         .to.be.revertedWith("Token to be minted should not exceed Max supply")
     })
