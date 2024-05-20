@@ -24,21 +24,24 @@ contract MindplexToken is
     // Role that has the access to mint tokens on this contract 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     // Max supply of the token
-    uint256 public constant MAX_SUPPLY = 1000000000 * 10**uint256(6);
+    uint256 public immutable maxSupply;
 
     //------------------------------- Constructor -----------------------------// 
 
     constructor(
         string memory name_, 
-        string memory symbol_
+        string memory symbol_,
+        uint256 maxSupply_
     ) 
         ERC20(name_, symbol_)
         ERC20Permit(name_)
     { 
+        require(maxSupply_ > 0, "Max supply cannot be zero");
+        maxSupply = maxSupply_;
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
         _grantRole(MINTER_ROLE, _msgSender());
-        _mint(_msgSender(), MAX_SUPPLY);
+        _mint(_msgSender(), maxSupply);
     }
 
     //------------------------------- EXTERNAL -----------------------------// 
@@ -52,7 +55,7 @@ contract MindplexToken is
         onlyRole(MINTER_ROLE) 
     {
         require(
-            totalSupply() + amount <= MAX_SUPPLY,
+            totalSupply() + amount <= maxSupply,
             "Token to be minted should not exceed Max supply"
         ); 
         _mint(to, amount);

@@ -29,7 +29,11 @@ describe("Mindplex Token Contract", function () {
 
         // Deploy token contract
         const _mindplexToken  = await ethers.getContractFactory("MindplexToken");
-        mindplexToken = await _mindplexToken.deploy(_name, _symbol);
+
+        await expect(_mindplexToken.deploy(_name, _symbol, 0))
+        .to.be.revertedWith("Max supply cannot be zero");
+
+        mindplexToken = await _mindplexToken.deploy(_name, _symbol, _maxSupply);
 
         console.log("Token contract deployed to:", mindplexToken.address); 
     });  
@@ -57,7 +61,7 @@ describe("Mindplex Token Contract", function () {
     });
 
     it("should assign Max supply", async function () {     
-        const maxSupply = await mindplexToken.MAX_SUPPLY();
+        const maxSupply = await mindplexToken.maxSupply();
         expect(BN(_maxSupply).toString()).to.equal(maxSupply.toString());
     });
 
