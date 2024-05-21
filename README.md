@@ -3,7 +3,7 @@
 The MindplexToken contract is an ERC20 utility token to be used in the Mindplex platform. Additional functionalities include pausing and unpausing transfers, burning and minting tokens, and role-based access control for certain operations. This contract leverages OpenZeppelin libraries to implement these features securely and efficiently.
 
 ## Features
-- **Fixed Supply**: The token has a fixed maximum supply of 1,000,000,000 tokens.
+- **Fixed Supply**: The token has a fixed maximum supply to be determined on deployment.
 - **Pausable**: The contract allows pausing and unpausing of all token transfers.
 - **Burnable**: Tokens can be burned, reducing the total supply.
 - **Mintable**: New tokens can be minted up to the maximum supply.
