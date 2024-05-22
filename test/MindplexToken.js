@@ -8,8 +8,9 @@ describe("Mindplex Token Contract", function () {
     let _symbol = "MPX";
     let _decimal = 6;
     let _initialSupply = 1000000000000000;
-    let _maxSupply = 1000000000000000;
-    let _allowanceAmount = 50000;
+    let _maxSupply = 100000;
+    let initialSupply = 10000;
+    let _allowanceAmount = 200;
     let zero_address = "0x0000000000000000000000000000000000000000";
     let admin;
     
@@ -30,10 +31,13 @@ describe("Mindplex Token Contract", function () {
         // Deploy token contract
         const _mindplexToken  = await ethers.getContractFactory("MindplexToken");
 
-        await expect(_mindplexToken.deploy(_name, _symbol, 0))
-        .to.be.revertedWith("Max supply cannot be zero");
+        await expect(_mindplexToken.deploy(_name, _symbol, 0, 1000))
+        .to.be.revertedWith("Zero amount");
 
-        mindplexToken = await _mindplexToken.deploy(_name, _symbol, _maxSupply);
+        await expect(_mindplexToken.deploy(_name, _symbol, 10000, 0))
+        .to.be.revertedWith("Zero amount");
+
+        mindplexToken = await _mindplexToken.deploy(_name, _symbol, _maxSupply, initialSupply);
 
         console.log("Token contract deployed to:", mindplexToken.address); 
     });  
@@ -57,7 +61,7 @@ describe("Mindplex Token Contract", function () {
 
     it("should assign total supply", async function () {     
         const totalSupply = await mindplexToken.totalSupply();
-        expect(BN(_initialSupply).toString()).to.equal(totalSupply.toString());
+        expect(BN(initialSupply).toString()).to.equal(totalSupply.toString());
     });
 
     it("should assign Max supply", async function () {     
@@ -76,7 +80,7 @@ describe("Mindplex Token Contract", function () {
     });
 
     it("Should increase allowance", async function () {  
-        let addedAmount = 10000;
+        let addedAmount = 200;
         _allowanceAmount += addedAmount;
         await mindplexToken.increaseAllowance(mindplexToken.address, addedAmount);
         expect(await mindplexToken.allowance(
@@ -86,7 +90,7 @@ describe("Mindplex Token Contract", function () {
     })
 
     it("Should decrease allowance", async function () {  
-        let decreaseAmount = 20000;
+        let decreaseAmount = 100;
         _allowanceAmount -= decreaseAmount;
         await mindplexToken.decreaseAllowance(mindplexToken.address, decreaseAmount);
         expect(await mindplexToken.allowance(
@@ -98,8 +102,8 @@ describe("Mindplex Token Contract", function () {
     //------------------------- Transfer ------------------------// 
    
     it("Should transfer input amount", async function (){
-        let _transferAmount = 500000;
-        let _secondTransferAmount = 300000;
+        let _transferAmount = 50;
+        let _secondTransferAmount = 50;
         let adminBalance = await mindplexToken.balanceOf(admin.address);
 
         // Transfer 1 (From admin to requestor)
@@ -115,7 +119,7 @@ describe("Mindplex Token Contract", function () {
     })
 
     it("Should revert transfer if contract is paused", async function (){
-        let _transferAmount = 500;
+        let _transferAmount = 50;
         await mindplexToken.pause();
         // Transfer 1 (From admin to requestor)
         await expect(mindplexToken.transfer(requestor.address, _transferAmount))
@@ -126,12 +130,12 @@ describe("Mindplex Token Contract", function () {
 
     it("Should revert minting before burn", async function (){
         await mindplexToken.unpause();
-        await expect(mindplexToken.mint(admin.address, 100))
+        await expect(mindplexToken.mint(admin.address, 90001))
         .to.be.revertedWith("Token to be minted should not exceed Max supply")
     })
 
     it("Should burn input amount", async function (){
-        let burnAmount = 500000;
+        let burnAmount = 30;
         let callerBalance = await mindplexToken.balanceOf(admin.address);
         await mindplexToken.burn(burnAmount);
         expect(await mindplexToken.balanceOf(admin.address))
