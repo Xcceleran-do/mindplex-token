@@ -31,17 +31,19 @@ contract MindplexToken is
     constructor(
         string memory name_, 
         string memory symbol_,
-        uint256 maxSupply_
+        uint256 maxSupply_,
+        uint256 initialSupply
     ) 
         ERC20(name_, symbol_)
         ERC20Permit(name_)
     { 
-        require(maxSupply_ > 0, "Max supply cannot be zero");
+        _checkNonZero(maxSupply_);
+        _checkNonZero(initialSupply);
         maxSupply = maxSupply_;
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
         _grantRole(MINTER_ROLE, _msgSender());
-        _mint(_msgSender(), maxSupply);
+        _mint(_msgSender(), initialSupply); // Minting initial Supply
     }
 
     //------------------------------- EXTERNAL -----------------------------// 
@@ -160,5 +162,11 @@ contract MindplexToken is
         override(ERC20, ERC20Votes) 
     {
         super._burn(account, amount);
+    }
+
+    //------------------------------- HELPERS -----------------------------// 
+
+    function _checkNonZero(uint256 amount) private pure {
+        require(amount > 0, "Zero amount");   
     }
 }
