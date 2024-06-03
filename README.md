@@ -1,26 +1,27 @@
 # Mindplex Token
+
 ## Overview
-The MindplexToken contract is an ERC20 utility token to be used in the Mindplex platform. Additional functionalities include pausing and unpausing transfers, burning and minting tokens, and role-based access control for certain operations. This contract leverages OpenZeppelin libraries to implement these features securely and efficiently.
+The MindplexToken contract is an ERC20 utility token to be used in the Mindplex platform. It is designed to facilitate transactions and other financial interactions within the Mindplex ecosystem.The project employs a fixed supply of tokens, incorporating functionalities for pausing/unpausing the contract, minting and burning tokens, and enforcing role-based access control to ensure secure and efficient operations. This contract leverages OpenZeppelin libraries to implement these features securely and efficiently.
 
-## Installation
+Recommended Node version is 16.0.0 and above.
 
-1. Install dependencies
+## Available commands
+
 ```bash
-    npm install
-```
+# install dependencies
+$ npm install
 
-## Compilation
+# build for production
+$ npm run build
 
-1. Install dependencies
-```bash
-    npx hardhat compile
-```
+# clean, build, run tests
+$ npm run rebuild
 
-## Commands to launch tests
+# run tests
+$ npm run test
 
-3. Run Tests
-```bash
-    npx hardhat test
+# compute tests coverage
+$ npm run coverage
 ```
 
 ## Features
@@ -37,7 +38,8 @@ The MindplexToken contract is an ERC20 utility token to be used in the Mindplex 
 - **Pauser Role (PAUSER_ROLE)**: Can pause and unpause token transfers.
 - **Minter Role (MINTER_ROLE)**: Can mint new tokens up to the maximum supply.
 
-The contract is deployed with an initial supply of the maximum number of tokens minted to the deployer's address.
+The contract is deployed with an initial supply minted to the deployer's address. The maximum number of tokens that can
+be minted is also set on deployment.
 
 ## Implementation
 
