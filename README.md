@@ -10,23 +10,30 @@ Functional and Technical Requirements can be found in the [Requirements.pdf](/do
 
 ## Available commands
 
+1. Install dependencies
 ```bash
-# install dependencies
-$ npm install
+    npm install
+```
 
-# build for production
-$ npm run build
+2. Compile project
+```bash
+    npx hardhat compile
+```
 
-# clean, build, run tests
-$ npm run rebuild
-
-# run tests
-$ npm run test
-
-# compute tests coverage
-$ npm run coverage
+3. Run Tests
+```bash
+    npx hardhat test
 ```
 
 # Project structure
 
 The project is implemented using hardhat. You can find the tests under ./test/ drectory which have a 100% coverage. the smart contract is found inside the ./contracts/ folder.
+
+## Technologies Used
+- Programming Languages & Development tools
+    - Solidity: The primary programming language used for smart contract development.
+    - Hardhat: A comprehensive development environment for compiling, testing, and deploying smart contracts.
+    - Javascript: Utilized for writing tests and scripts to interact with the smart contracts.
+- Libraries
+
+    - Openzeppelin: A library for secure smart contract development, providing reusable and tested modules.
