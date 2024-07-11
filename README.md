@@ -22,6 +22,7 @@ Functional and Technical Requirements can be found in the [Requirements.pdf](/do
     - Hardhat: A comprehensive development environment for compiling, testing, and deploying smart contracts.
     - Javascript: Utilized for writing tests and scripts to interact with the smart contracts.
 - Libraries
+    - Openzeppelin: A library for secure smart contract development, providing reusable and tested modules.
 
 ## Getting Started
 
