@@ -32,7 +32,7 @@
 - **Burnable**: Holders can burn their tokens.
 - **Pausable**: The contract can be paused and unpaused by the authorized role, which stops all token transfers.
 - **Access Control**: Specific functionalities are restricted to users with certain roles.
-- 
+  
 ## Roles
 The mindplex token contract defines 3 roles:
 - `DEFAULT_ADMIN_ROLE`: Has the ability to manage other roles.
