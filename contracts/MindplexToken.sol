@@ -39,6 +39,8 @@ contract MindplexToken is
     { 
         _checkNonZero(maxSupply_);
         _checkNonZero(initialSupply);
+        require(initialSupply <= maxSupply_, "Initial supply exceeds max limit");
+
         maxSupply = maxSupply_;
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
